@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { exampleFormDefinition } from './test.data';
 
 export interface FormField {
   id?: string;
   name?: string;
-  configuredOptions: any;
+  config: any;
   formFieldType: FormFieldType;
   isExpanded?: boolean;
 }
@@ -23,45 +24,40 @@ export class AppComponent {
 
   }
 
+  exportedForm = "";
+
   formFieldOptions: FormField[] = [
     {
       formFieldType: FormFieldType.TextInput,
       name: 'Input | Tekst',
-      configuredOptions: {
+      config: {
         title: "",
         required: false,
         numbersOnly: false,
-        validationRegex: ''
       }
     },
     {
       formFieldType: FormFieldType.TextInput,
       name: 'Input | Tal',
-      configuredOptions: {
+      config: {
         title: "",
         required: false,
-        numbersOnly: false,
-        validationRegex: ''
       }
     },
     {
       formFieldType: FormFieldType.TextInput,
       name: 'Input | Beløb',
-      configuredOptions: {
+      config: {
         title: "",
         required: false,
-        numbersOnly: false,
-        validationRegex: ''
       }
     },
     {
       formFieldType: FormFieldType.TextInput,
       name: 'Input | Filer',
-      configuredOptions: {
+      config: {
         title: "",
         required: false,
-        numbersOnly: false,
-        validationRegex: ''
       }
     }
   ];
@@ -70,28 +66,28 @@ export class AppComponent {
     {
       formFieldType: FormFieldType.Header1,
       name: 'Overskrift | Stor',
-      configuredOptions: {
+      config: {
         text: "Header1 test"
       }
     },
     {
       formFieldType: FormFieldType.Header2,
       name: 'Overskrift | Medium',
-      configuredOptions: {
+      config: {
         text: "Header2 test"
       }
     },
     {
       formFieldType: FormFieldType.Header3,
       name: 'Overskrift | Lille',
-      configuredOptions: {
+      config: {
         text: "Header3 test"
       }
     },
     {
       formFieldType: FormFieldType.Paragraf,
       name: 'Paragraf',
-      configuredOptions: {
+      config: {
         text: ""
       }
     },
@@ -101,7 +97,7 @@ export class AppComponent {
     {
       formFieldType: FormFieldType.Divider,
       name: 'Divider',
-      configuredOptions: {}
+      config: {}
     },
   ];
 
@@ -109,8 +105,12 @@ export class AppComponent {
   FormFieldType = FormFieldType;
 
   sections: FormField[][] = [[]];
-  sectionNames: string[] = [];
+  sectionNames: string[] = ["Start"];
   activeSection = 0;
+
+  ngOnInit() {
+    this.importForm(exampleFormDefinition);
+  }
 
   onDrop(event: CdkDragDrop<FormField[]>) {
     if (event.previousContainer === event.container) {
@@ -147,11 +147,11 @@ export class AppComponent {
       case FormFieldType.Header3:
       case FormFieldType.Paragraf:
         const group = this.formBuilder.group({
-          text: [item.configuredOptions.text]
+          text: [item.config.text]
         });
     
         group.get('text')!.valueChanges.subscribe(val => {
-          item.configuredOptions.text = val;
+          item.config.text = val;
         });
     
         return group;
@@ -160,13 +160,13 @@ export class AppComponent {
       case FormFieldType.MoneyInput:
       case FormFieldType.NumberInput:
         const group2 = this.formBuilder.group({
-          text: [item.configuredOptions.text],
-          required: [item.configuredOptions.required]
+          text: [item.config.text],
+          required: [item.config.required]
         });
     
         group2.valueChanges.subscribe(val => {
-          item.configuredOptions.text = val?.text;
-          item.configuredOptions.required = val?.required;
+          item.config.text = val?.text;
+          item.config.required = val?.required;
         });
     
         return group2;
@@ -197,6 +197,28 @@ export class AppComponent {
 
   getDeepCopy(item: any) {
     return JSON.parse(JSON.stringify(item));
+  }
+
+  exportForm() {
+    const exportData = {} as any;
+    for (let index = 0; index < this.sectionNames.length; index++) {
+      const name = this.sectionNames[index];
+      exportData[name] = this.sections[index];
+    }
+
+    this.exportedForm = JSON.stringify(exportData);
+  }
+
+  importForm(form: any) {
+    this.sectionNames = [];
+    this.sections = [];
+    for (let [sectionName, section] of Object.entries(form)) {
+      this.sectionNames.push(sectionName);
+      this.sections.push(section as FormField[]);
+      for (let field of section as FormField[]) {
+        this.optionControls[field.id!] = this.getFormGroup(field);
+      }
+    }
   }
 }
 
