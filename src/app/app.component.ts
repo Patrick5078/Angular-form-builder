@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 export interface FormField {
   id?: string;
   name?: string;
   configuredOptions: any;
   formFieldType: FormFieldType;
+  isExpanded?: boolean;
 }
 
 @Component({
@@ -15,6 +16,12 @@ export interface FormField {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  constructor(
+    public formBuilder: FormBuilder,
+  ) {
+
+  }
 
   formFieldOptions: FormField[] = [
     {
@@ -94,8 +101,7 @@ export class AppComponent {
     {
       formFieldType: FormFieldType.Divider,
       name: 'Divider',
-      configuredOptions: {
-      }
+      configuredOptions: {}
     },
   ];
 
@@ -112,25 +118,61 @@ export class AppComponent {
       return;
     }
 
-    let fromArray: FormField[] = [];
+    let sourceArray: FormField[] = [];
 
     switch (event.previousContainer.data[0].name) {
-      case this.formFieldOptions[0].name: fromArray = this.formFieldOptions; break;
-      case this.formSpacingOptions[0].name: fromArray = this.formSpacingOptions; break;
-      case this.formTextOptions[0].name: fromArray = this.formTextOptions; break;
+      case this.formFieldOptions[0].name: sourceArray = this.formFieldOptions; break;
+      case this.formSpacingOptions[0].name: sourceArray = this.formSpacingOptions; break;
+      case this.formTextOptions[0].name: sourceArray = this.formTextOptions; break;
     }
 
+    const item = this.getDeepCopy(sourceArray[event.previousIndex]) as FormField;
+
     const id = this.uuidv4();
-    const item = fromArray[event.previousIndex];
     item.id = id;
+    item.isExpanded = true;
 
-    const control = new FormControl(item.configuredOptions.text);
-    control.valueChanges.subscribe(val => {
-      item.configuredOptions.text = val;
-    });
+    const formGroup = this.getFormGroup(item);
+    if (formGroup !== null) {
+      this.optionControls[id] = formGroup;
+    }
 
-    this.optionControls[id] = control;
-    copyArrayItem(fromArray!, this.sections[this.activeSection], event.previousIndex, event.currentIndex)
+    copyArrayItem([item], this.sections[this.activeSection], 0, event.currentIndex);
+  }
+
+  getFormGroup(item: FormField) {
+    switch (item.formFieldType) {
+      case FormFieldType.Header1:
+      case FormFieldType.Header2:
+      case FormFieldType.Header3:
+      case FormFieldType.Paragraf:
+        const group = this.formBuilder.group({
+          text: [item.configuredOptions.text]
+        });
+    
+        group.get('text')!.valueChanges.subscribe(val => {
+          item.configuredOptions.text = val;
+        });
+    
+        return group;
+
+      case FormFieldType.TextInput:
+      case FormFieldType.MoneyInput:
+      case FormFieldType.NumberInput:
+        const group2 = this.formBuilder.group({
+          text: [item.configuredOptions.text],
+          required: [item.configuredOptions.required]
+        });
+    
+        group2.valueChanges.subscribe(val => {
+          item.configuredOptions.text = val?.text;
+          item.configuredOptions.required = val?.required;
+        });
+    
+        return group2;
+
+      default: return null;
+    }
   }
 
   uuidv4() {
@@ -151,6 +193,10 @@ export class AppComponent {
   removeSection(index: number) {
     this.sections.splice(index, 1);
     this.sectionNames.splice(index, 1);
+  }
+
+  getDeepCopy(item: any) {
+    return JSON.parse(JSON.stringify(item));
   }
 }
 

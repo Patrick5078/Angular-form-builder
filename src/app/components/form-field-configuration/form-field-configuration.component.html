@@ -1,0 +1,43 @@
+<div [ngSwitch]="formFieldType" class="pt-2 pb-2">
+  <ng-container *ngSwitchCase="FormFieldType.Header1">
+    <ng-container [ngTemplateOutlet]="simpleText"></ng-container>     
+  </ng-container>
+  <ng-container *ngSwitchCase="FormFieldType.Header2">
+    <ng-container [ngTemplateOutlet]="simpleText"></ng-container>     
+  </ng-container>
+  <ng-container *ngSwitchCase="FormFieldType.Header3">
+    <ng-container [ngTemplateOutlet]="simpleText"></ng-container>     
+  </ng-container>
+  <ng-container *ngSwitchCase="FormFieldType.Paragraf">
+    <ng-container [ngTemplateOutlet]="simpleText"></ng-container>     
+  </ng-container>
+  <ng-container *ngSwitchCase="FormFieldType.TextInput">
+    <ng-container [ngTemplateOutlet]="inputField"></ng-container>     
+  </ng-container>
+  <ng-container *ngSwitchCase="FormFieldType.NumberInput">
+    <ng-container [ngTemplateOutlet]="inputField"></ng-container>     
+  </ng-container>
+  <ng-container *ngSwitchCase="FormFieldType.MoneyInput">
+    <ng-container [ngTemplateOutlet]="inputField"></ng-container>     
+  </ng-container>
+  <ng-content></ng-content>
+</div>
+
+
+<ng-template #simpleText [formGroup]="formGroup">
+    <div class="is-flex is-justify-content-space-between pl-2 pr-2">
+        <label class="is-flex is-align-items-center">Tekst:</label>
+    <textarea formControlName="text" class="mr-6"></textarea>
+    </div>
+</ng-template>
+
+<ng-template #inputField [formGroup]="formGroup!">
+    <div class="is-flex is-justify-content-space-between pl-2 pr-2">
+        <label class="is-flex is-align-items-center">Navn:</label>
+        <input formControlName="text" class="mr-6">
+    </div>
+    <div class="is-flex pl-2 pr-2 mt-2">
+        <label class="is-flex is-align-items-center">Obligatorisk:</label>
+        <input type="checkbox" formControlName="required" class="mr-6">
+    </div>
+</ng-template>

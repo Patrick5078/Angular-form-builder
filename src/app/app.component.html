@@ -16,48 +16,69 @@
     <p class="menu-label">Spacing</p>
     <ul class="menu-list">
       <ul class="menu-list" cdkDropList #formTextOptionsList="cdkDropList" [cdkDropListData]="formSpacingOptions"
-      [cdkDropListConnectedTo]="[chosenFormOptions]">
-      <li *ngFor="let formitem of formSpacingOptions" cdkDrag>{{formitem.name}}</li>
+        [cdkDropListConnectedTo]="[chosenFormOptions]">
+        <li *ngFor="let formitem of formSpacingOptions" cdkDrag>{{formitem.name}}</li>
+      </ul>
     </ul>
-    </ul>
-  </div>
+    </div>
 </aside>
 
 
-<div class="content">
+
+<div class="builder-content">
   <div class="is-flex is-justify-content-center is-align-content-center is-flex-direction-column">
     <h2>Sektioner</h2>
     <div class="is-flex">
-      <button class="button mr-2" [class.has-background-success]="i === activeSection" 
-      [class.has-text-white]="i === activeSection" (click)="activeSection = i" *ngFor="let section of sections; let i = index">
-      {{i + 1}}
-    </button>
+      <button class="button mr-2" [class.has-background-success]="i === activeSection"
+        [class.has-text-white]="i === activeSection" (click)="activeSection = i"
+        *ngFor="let section of sections; let i = index">
+        <p>{{i + 1}} | [{{section.length}} Elementer]</p>
+      </button>
+    </div>
+    <button class="button mt-2" (click)="addSection('Stuff')">Tilføj ny sektion</button>
   </div>
-  <button class="button mt-2" (click)="addSection('Stuff')">Tilføj ny sektion</button>
-</div>
   <hr>
 
   <div class="columns">
     <div class="column">
       <h2>Form builder</h2>
       <div cdkDropList #chosenFormOptions="cdkDropList" [cdkDropListData]="sections[activeSection]"
-      [cdkDropListConnectedTo]="[formFieldOptionsList, formTextOptionsList]" class="movie-list"
-      (cdkDropListDropped)="onDrop($event)">
-      <div class="movie-block" *ngFor="let formItem of sections[activeSection]; let i = index" cdkDrag>
-        <div class="is-flex is-justify-content-space-between selected-options-container">
-          <p>{{formItem.name}}</p>
-          <ng-container *ngIf="formItem.formFieldType !== FormFieldType.Divider">
-            <textarea width="300px" height="300px" [formControl]="optionControls[formItem.id!]"></textarea>
-          </ng-container>
-          <button class="button" (click)="removeItem(i)">Slet</button>
+        [cdkDropListConnectedTo]="[formFieldOptionsList, formTextOptionsList]" class="selected-items-list"
+        (cdkDropListDropped)="onDrop($event)">
+        <div *ngFor="let formItem of sections[activeSection]; let i = index; let first = first;" cdkDrag [class.has-top-border]="!first">
+          <div class="is-flex selected-item-block is-justify-content-space-between selected-options-container is-align-items-center" (click)="formItem.isExpanded = !formItem.isExpanded">
+          <div class="example-handle" cdkDragHandle>
+            <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+            <p class="has-text-weight-semibold"><span><i (click)="removeItem(i)" class="ms-Icon ms-font-m ms-Icon--Delete ms-fontColor-themePrimary mr-2"></i></span>{{formItem.name}}</p>
+            <ng-container *ngIf="optionControls[formItem.id!]; else emptyTemplate">
+              <i *ngIf="!formItem.isExpanded"
+              class="ms-Icon ms-font-xl ms-Icon--ChevronDown ms-fontColor-themePrimary"></i>
+              <i *ngIf="formItem.isExpanded"
+              class="ms-Icon ms-font-xl ms-Icon--ChevronUp ms-fontColor-themePrimary"></i>
+            </ng-container>
+          </div>
+          <div *ngIf="formItem.isExpanded && optionControls[formItem.id!]">
+            <app-form-field-configuration [formFieldType]="formItem.formFieldType" [formGroup]="optionControls[formItem.id!]"></app-form-field-configuration>
+          </div>
         </div>
       </div>
     </div>
+    <div class="column">
+      <h2>Preview</h2>
+      <hr>
+      <app-form-viewer [sections]="sections" [activeSection]="activeSection"></app-form-viewer>
+    </div>
   </div>
-  <div class="column">
-    <h2>Preview</h2>
-    <hr>
-    <app-form-viewer [sections]="sections"></app-form-viewer>
-  </div>
-</div>
+
+  <app-modal>
+
+  </app-modal>
+
+  <ng-template #emptyTemplate>
+    <div></div>
+  </ng-template>
 </div>

@@ -1,0 +1,19 @@
+<div *ngFor="let section of sections; let i = index;">
+    <div *ngFor="let item of section">
+        <div [ngSwitch]="item.formFieldType" *ngIf="activeSection === i">
+            <h1 *ngSwitchCase="FormFieldType.Header1" class="is-size-2 mb-3">{{item.configuredOptions.text}}</h1>
+            <h2 *ngSwitchCase="FormFieldType.Header2" class="is-size-3 mb-3">{{item.configuredOptions.text}}</h2>
+            <h3 *ngSwitchCase="FormFieldType.Header3" class="is-size-4 mb-3">{{item.configuredOptions.text}}</h3>
+            <p *ngSwitchCase="FormFieldType.Paragraf" class="mb-3">{{item.configuredOptions.text}}</p>
+            
+            <!-- Custom components etc -->
+            <div class="is-flex is-flex-direction-column mb-3" *ngSwitchCase="FormFieldType.TextInput">
+                <label class="has-text-weight-semibold">{{item.configuredOptions.text}}<span class="ml-1" *ngIf="item.configuredOptions.required" style="color: red">*</span></label>
+                <input class="input display-input">
+            </div>
+            <input *ngSwitchCase="FormFieldType.NumberInput">
+            <input *ngSwitchCase="FormFieldType.MoneyInput">
+            <hr *ngSwitchCase="FormFieldType.Divider">
+        </div>
+    </div>
+<div>
