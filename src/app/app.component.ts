@@ -1,3 +1,4 @@
+import { FormGroupCreatorService } from './services/form-group-creator.service';
 import { Component } from '@angular/core';
 import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -20,6 +21,7 @@ export class AppComponent {
 
   constructor(
     public formBuilder: FormBuilder,
+    public formGroupCreator: FormGroupCreatorService
   ) {
 
   }
@@ -33,11 +35,10 @@ export class AppComponent {
       config: {
         title: "",
         required: false,
-        numbersOnly: false,
       }
     },
     {
-      formFieldType: FormFieldType.TextInput,
+      formFieldType: FormFieldType.NumberInput,
       name: 'Input | Tal',
       config: {
         title: "",
@@ -45,7 +46,7 @@ export class AppComponent {
       }
     },
     {
-      formFieldType: FormFieldType.TextInput,
+      formFieldType: FormFieldType.MoneyInput,
       name: 'Input | Beløb',
       config: {
         title: "",
@@ -58,6 +59,15 @@ export class AppComponent {
       config: {
         title: "",
         required: false,
+      }
+    },
+    {
+      formFieldType: FormFieldType.OptionsInput,
+      name: 'Input | Dropdown',
+      config: {
+        title: "",
+        required: false,
+        options: null,
       }
     }
   ];
@@ -132,47 +142,12 @@ export class AppComponent {
     item.id = id;
     item.isExpanded = true;
 
-    const formGroup = this.getFormGroup(item);
+    const formGroup = this.formGroupCreator.getFormGroup(item);
     if (formGroup !== null) {
       this.optionControls[id] = formGroup;
     }
 
     copyArrayItem([item], this.sections[this.activeSection], 0, event.currentIndex);
-  }
-
-  getFormGroup(item: FormField) {
-    switch (item.formFieldType) {
-      case FormFieldType.Header1:
-      case FormFieldType.Header2:
-      case FormFieldType.Header3:
-      case FormFieldType.Paragraf:
-        const group = this.formBuilder.group({
-          text: [item.config.text]
-        });
-    
-        group.get('text')!.valueChanges.subscribe(val => {
-          item.config.text = val;
-        });
-    
-        return group;
-
-      case FormFieldType.TextInput:
-      case FormFieldType.MoneyInput:
-      case FormFieldType.NumberInput:
-        const group2 = this.formBuilder.group({
-          text: [item.config.text],
-          required: [item.config.required]
-        });
-    
-        group2.valueChanges.subscribe(val => {
-          item.config.text = val?.text;
-          item.config.required = val?.required;
-        });
-    
-        return group2;
-
-      default: return null;
-    }
   }
 
   uuidv4() {
@@ -216,7 +191,7 @@ export class AppComponent {
       this.sectionNames.push(sectionName);
       this.sections.push(section as FormField[]);
       for (let field of section as FormField[]) {
-        this.optionControls[field.id!] = this.getFormGroup(field);
+        this.optionControls[field.id!] = this.formGroupCreator.getFormGroup(field);
       }
     }
   }
@@ -226,6 +201,7 @@ export enum FormFieldType {
   TextInput,
   NumberInput,
   MoneyInput,
+  OptionsInput,
   Header1,
   Header2,
   Header3,

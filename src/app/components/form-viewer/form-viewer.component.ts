@@ -16,6 +16,10 @@ export class FormViewerComponent implements OnInit {
 
   
   FormFieldType = FormFieldType;
+  customPatterns = {
+    'V': {pattern: new RegExp('-?')},
+    '0': {pattern: new RegExp('[0-9]')}
+  }
   
   ngOnInit(): void {
 

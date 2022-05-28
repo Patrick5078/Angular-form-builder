@@ -8,6 +8,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './components/modal/modal.component';
 import { FormViewerComponent } from './components/form-viewer/form-viewer.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormViewerComponent } from './components/form-viewer/form-viewer.compon
     BrowserAnimationsModule,
     DragDropModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
