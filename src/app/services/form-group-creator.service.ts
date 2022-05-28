@@ -1,6 +1,7 @@
 import { FormBuilder } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { FormField, FormFieldType } from '../app.component';
+import { FormField } from '../app.component';
+import { FormFieldType } from '../data/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,9 @@ export class FormGroupCreatorService {
         });
 
         return group3;
+
+      case FormFieldType.Group:
+        return this.formBuilder.group({});
 
       default: return null;
     }

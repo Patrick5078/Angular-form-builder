@@ -1,0 +1,37 @@
+<div [id]="dropListId" cdkDropList [cdkDropListData]="targetArray" class="selected-items-list"
+  (cdkDropListDropped)="onDrop($event)">
+  <div *ngFor="let formItem of targetArray; let i = index; let first = first;" cdkDrag [class.has-top-border]="!first">
+    <div
+      class="is-flex selected-item-block is-justify-content-space-between selected-options-container is-align-items-center"
+      (click)="formItem.isExpanded = !formItem.isExpanded" [class.has-bottom-border]="formItem.isExpanded">
+      <div class="is-flex">
+        <div class="example-handle" cdkDragHandle>
+          <i class="ms-Icon ms-font-xl ms-Icon--SIPMove ms-fontColor-themePrimary"></i>
+        </div>
+        <div class="is-flex is-align-items-center">
+          <p class="has-text-weight-semibold ml-3"><span><i (click)="removeItem(i)"
+                class="ms-Icon ms-font-m ms-Icon--Delete ms-fontColor-themePrimary mr-2"></i></span>{{formItem.name}}
+          </p>
+        </div>
+      </div>
+      <ng-container *ngIf="optionControls[formItem.id!] else emptyTemplate">
+        <div *ngIf="formItem.formFieldType === FormFieldType.Group">
+          <i class="ms-Icon ms-font-xl ms-Icon--Settings ms-fontColor-themePrimary"
+            (click)="openEditFormGroupModal(formItem)"></i>
+        </div>
+        <i *ngIf="formItem.isExpanded && formItem.formFieldType !== FormFieldType.Group"
+          class="ms-Icon ms-font-xl ms-Icon--ChevronUp ms-fontColor-themePrimary"></i>
+        <i *ngIf="!formItem.isExpanded && formItem.formFieldType !== FormFieldType.Group"
+          class="ms-Icon ms-font-xl ms-Icon--ChevronDown ms-fontColor-themePrimary"></i>
+      </ng-container>
+    </div>
+    <div *ngIf="formItem.isExpanded && optionControls[formItem.id!] && formItem.formFieldType !== FormFieldType.Group">
+      <app-form-field-configuration [formFieldType]="formItem.formFieldType" [formGroup]="optionControls[formItem.id!]">
+      </app-form-field-configuration>
+    </div>
+  </div>
+  <!-- </div> -->
+
+  <ng-template #emptyTemplate>
+    <div></div>
+  </ng-template>

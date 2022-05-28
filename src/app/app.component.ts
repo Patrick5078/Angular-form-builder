@@ -1,8 +1,12 @@
 import { FormGroupCreatorService } from './services/form-group-creator.service';
 import { Component } from '@angular/core';
-import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { CdkDragDrop, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FormBuilder } from '@angular/forms';
 import { exampleFormDefinition } from './test.data';
+import { FormFieldType } from './data/enums';
+import { formFieldOptions, formSpacingOptions, formTextOptions } from './data/form-field-options';
+import { dropListIds } from './data/drop-list-ids';
+import { ModalDataManager } from './services/modal-manager';
 
 export interface FormField {
   id?: string;
@@ -20,140 +24,27 @@ export interface FormField {
 export class AppComponent {
 
   constructor(
-    public formBuilder: FormBuilder,
     public formGroupCreator: FormGroupCreatorService
-  ) {
-
-  }
+  ) { }
 
   exportedForm = "";
 
-  formFieldOptions: FormField[] = [
-    {
-      formFieldType: FormFieldType.TextInput,
-      name: 'Input | Tekst',
-      config: {
-        title: "",
-        required: false,
-      }
-    },
-    {
-      formFieldType: FormFieldType.NumberInput,
-      name: 'Input | Tal',
-      config: {
-        title: "",
-        required: false,
-      }
-    },
-    {
-      formFieldType: FormFieldType.MoneyInput,
-      name: 'Input | Beløb',
-      config: {
-        title: "",
-        required: false,
-      }
-    },
-    {
-      formFieldType: FormFieldType.TextInput,
-      name: 'Input | Filer',
-      config: {
-        title: "",
-        required: false,
-      }
-    },
-    {
-      formFieldType: FormFieldType.OptionsInput,
-      name: 'Input | Dropdown',
-      config: {
-        title: "",
-        required: false,
-        options: null,
-      }
-    }
-  ];
-
-  formTextOptions: FormField[] = [
-    {
-      formFieldType: FormFieldType.Header1,
-      name: 'Overskrift | Stor',
-      config: {
-        text: "Header1 test"
-      }
-    },
-    {
-      formFieldType: FormFieldType.Header2,
-      name: 'Overskrift | Medium',
-      config: {
-        text: "Header2 test"
-      }
-    },
-    {
-      formFieldType: FormFieldType.Header3,
-      name: 'Overskrift | Lille',
-      config: {
-        text: "Header3 test"
-      }
-    },
-    {
-      formFieldType: FormFieldType.Paragraf,
-      name: 'Paragraf',
-      config: {
-        text: ""
-      }
-    },
-  ];
-
-  formSpacingOptions: FormField[] = [
-    {
-      formFieldType: FormFieldType.Divider,
-      name: 'Divider',
-      config: {}
-    },
-  ];
-
   optionControls = {} as any;
   FormFieldType = FormFieldType;
-
+  
   sections: FormField[][] = [[]];
   sectionNames: string[] = ["Start"];
   activeSection = 0;
+  dropListIds = dropListIds;
+  
+  formSpacingOptions = formSpacingOptions;
+  formFieldOptions = formFieldOptions;
+  formTextOptions = formTextOptions;
+
+  ModalDataManager = ModalDataManager;
 
   ngOnInit() {
-    this.importForm(exampleFormDefinition);
-  }
-
-  onDrop(event: CdkDragDrop<FormField[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      return;
-    }
-
-    let sourceArray: FormField[] = [];
-
-    switch (event.previousContainer.data[0].name) {
-      case this.formFieldOptions[0].name: sourceArray = this.formFieldOptions; break;
-      case this.formSpacingOptions[0].name: sourceArray = this.formSpacingOptions; break;
-      case this.formTextOptions[0].name: sourceArray = this.formTextOptions; break;
-    }
-
-    const item = this.getDeepCopy(sourceArray[event.previousIndex]) as FormField;
-
-    const id = this.uuidv4();
-    item.id = id;
-    item.isExpanded = true;
-
-    const formGroup = this.formGroupCreator.getFormGroup(item);
-    if (formGroup !== null) {
-      this.optionControls[id] = formGroup;
-    }
-
-    copyArrayItem([item], this.sections[this.activeSection], 0, event.currentIndex);
-  }
-
-  uuidv4() {
-    return (([1e7] as unknown as number)+-1e3+-4e3+-8e3+-1e11).toString().replace(/[018]/g, (c: any) =>
-      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
+    //this.importForm(exampleFormDefinition);
   }
 
   removeItem(index: number) {
@@ -170,8 +61,10 @@ export class AppComponent {
     this.sectionNames.splice(index, 1);
   }
 
-  getDeepCopy(item: any) {
-    return JSON.parse(JSON.stringify(item));
+  closeAll() {
+    this.sections[this.activeSection].forEach(field => {
+      field.isExpanded = false;
+    })
   }
 
   exportForm() {
@@ -195,17 +88,5 @@ export class AppComponent {
       }
     }
   }
-}
-
-export enum FormFieldType {
-  TextInput,
-  NumberInput,
-  MoneyInput,
-  OptionsInput,
-  Header1,
-  Header2,
-  Header3,
-  Paragraf,
-  Divider,
 }
 

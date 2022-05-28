@@ -6,16 +6,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ModalComponent } from './components/modal/modal.component';
 import { FormViewerComponent } from './components/form-viewer/form-viewer.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { EditInputGroupModalComponent } from './components/modal/edit-input-group-modal/edit-input-group-modal.component';
+import { FormFieldDropListComponent } from './components/form-field-drop-list/form-field-drop-list.component';
+import { FormFieldDisplayComponent } from './components/form-viewer/form-field-display/form-field-display.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormViewerComponent,
-    ModalComponent,
-    FormFieldConfigurationComponent
+    FormFieldConfigurationComponent,
+    EditInputGroupModalComponent,
+    FormFieldDropListComponent,
+    FormFieldDisplayComponent
   ],
   imports: [
     BrowserModule,

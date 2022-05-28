@@ -1,6 +1,6 @@
-import { FormFieldType } from './../../app.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormFieldType } from 'src/app/data/enums';
 
 @Component({
   selector: 'app-form-field-configuration',

@@ -1,5 +1,5 @@
-import { FormFieldType } from '../../app.component';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormFieldType } from 'src/app/data/enums';
 import { FormField } from '../../app.component';
 
 @Component({
@@ -16,11 +16,6 @@ export class FormViewerComponent implements OnInit {
 
   
   FormFieldType = FormFieldType;
-  customPatterns = {
-    'V': {pattern: new RegExp('-?')},
-    '0': {pattern: new RegExp('[0-9]')}
-  }
-  
   ngOnInit(): void {
 
   }

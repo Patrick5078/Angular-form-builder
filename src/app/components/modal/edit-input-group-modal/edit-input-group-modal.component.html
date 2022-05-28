@@ -1,0 +1,22 @@
+<div class="modal" [class.is-active]="ModalDataManager.FormGroupModalIsOpen">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Rediger gruppe</p>
+        <button class="delete" aria-label="close" (click)="ModalDataManager.FormGroupModalIsOpen = false"></button>
+      </header>
+      <section class="modal-card-body">
+        <div *ngIf="formField" class="columns">
+            <div class="column">
+                <app-form-field-drop-list [optionControls]="optionControls" [targetArray]="formField.config.formFieldsColumn1" [dropListId]="'inputGroupColumn1'"></app-form-field-drop-list>
+            </div>
+            <div class="column">
+                <app-form-field-drop-list [optionControls]="optionControls" [targetArray]="formField.config.formFieldsColumn2" [dropListId]="'inputGroupColumn2'"></app-form-field-drop-list>
+            </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button" (click)="ModalDataManager.FormGroupModalIsOpen = false">Luk</button>
+      </footer>
+    </div>
+  </div>
