@@ -48,7 +48,7 @@
       <label class="is-flex is-align-items-center">Obligatorisk:</label>
       <input type="checkbox" formControlName="required" class="mr-6">
     </div>
-    <button class="button mt-1" (click)="ModalDataManager.LogicRulesModalIsOpen = true; ModalDataManager.LogicRulesModalItemBeingEdited = formField">Regler</button>
+    <button class="button mt-1" (click)="ModalDataManager.LogicRulesModalIsOpen = true; ModalDataManager.LogicRulesModalItemBeingEdited = formField">Regler [{{formField.config.logicRules.length}}]</button>
   </div>
 </ng-template>
 

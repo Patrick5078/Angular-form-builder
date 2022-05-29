@@ -3,14 +3,15 @@
   <div *ngFor="let formItem of targetArray; let i = index; let first = first;" cdkDrag [class.has-top-border]="!first">
     <div
       class="is-flex selected-item-block is-justify-content-space-between selected-options-container is-align-items-center"
-      (click)="formItem.isExpanded = !formItem.isExpanded" [class.has-bottom-border]="formItem.isExpanded && formItem.FormFieldType !== FormFieldType.Group">
+      (click)="formItem.isExpanded = !formItem.isExpanded" [class.has-bottom-border]="formItem.isExpanded && formItem.FormFieldType !== FormFieldType.Group && formItem.formFieldType !== FormFieldType.Divider">
       <div class="is-flex">
         <div class="drag-drop-handle" cdkDragHandle>
           <i class="ms-Icon ms-font-xl ms-Icon--SIPMove ms-fontColor-themePrimary"></i>
         </div>
         <div class="is-flex is-align-items-center">
           <p class="has-text-weight-semibold ml-3"><span><i (click)="removeItem(i)"
-                class="ms-Icon ms-font-m ms-Icon--Delete ms-fontColor-themePrimary mr-2"></i></span>{{formItem.name}}
+                class="ms-Icon ms-font-m ms-Icon--Delete ms-fontColor-themePrimary mr-2"></i></span>{{formItem.name}} {{formItem.config?.text && '—'}}   
+                {{ (formItem.config?.text?.length > 20)? (formItem.config?.text | slice:0:20)+'...': formItem.config?.text }}
           </p>
         </div>
       </div>
@@ -25,7 +26,7 @@
           class="ms-Icon ms-font-xl ms-Icon--ChevronDown ms-fontColor-themePrimary"></i>
       </ng-container>
     </div>
-    <div *ngIf="formItem.isExpanded && fieldControls[formItem.id!] && formItem.formFieldType !== FormFieldType.Group">
+    <div *ngIf="formItem.isExpanded && fieldControls[formItem.id!] && formItem.formFieldType !== FormFieldType.Group && formItem.formFieldType !== FormFieldType.Divider">
       <app-form-field-configuration [formField]="formItem" [formGroup]="fieldControls[formItem.id!]">
       </app-form-field-configuration>
     </div>

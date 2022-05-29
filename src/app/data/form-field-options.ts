@@ -111,6 +111,7 @@ export const formFieldOptions: FormField[] = [
         formFieldsColumn1: [],
         formFieldsColumn2: [],
         logicRules: [],
+        hasBorder: true,
       }
     },
   ];

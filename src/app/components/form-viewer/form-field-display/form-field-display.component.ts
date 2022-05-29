@@ -14,6 +14,7 @@ export class FormFieldDisplayComponent implements OnInit {
 
   @Input() formField!: FormField;
   @Input() formGroup!: FormGroup;
+  @Input() fieldControls: any = {};
 
   FormFieldType = FormFieldType;
 

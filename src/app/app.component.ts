@@ -46,7 +46,7 @@ export class AppComponent {
   ModalDataManager = ModalDataManager;
 
   ngOnInit() {
-    this.importForm(exampleFormDefinition);
+    //this.importForm(exampleFormDefinition);
   }
 
   removeItem(index: number) {

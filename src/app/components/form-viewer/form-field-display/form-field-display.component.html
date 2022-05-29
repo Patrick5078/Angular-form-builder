@@ -32,13 +32,13 @@
               </div>
           </div>
     </div>
-    <div *ngSwitchCase="FormFieldType.Group">
+    <div *ngSwitchCase="FormFieldType.Group" [class.has-group-border]="formField.config.hasBorder">
       <div class="columns">
         <div class="column">
-          <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn1" [formField]="field" [formGroup]="formGroup"></app-form-field-display>
+          <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn1" [formField]="field" [formGroup]="fieldControls[field.id!]"></app-form-field-display>
         </div>
         <div class="column">
-            <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn2" [formField]="field" [formGroup]="formGroup"></app-form-field-display>
+            <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn2" [formField]="field" [formGroup]="fieldControls[field.id!]"></app-form-field-display>
         </div>
       </div>
     </div>
