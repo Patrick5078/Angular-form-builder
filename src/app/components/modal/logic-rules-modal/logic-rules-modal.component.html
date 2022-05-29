@@ -1,0 +1,35 @@
+<div class="modal" [formGroup]="logicRulesGroup" [class.is-active]="ModalDataManager.LogicRulesModalIsOpen">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Logik regler</p>
+        <button class="delete" aria-label="close" (click)="ModalDataManager.LogicRulesModalIsOpen = false"></button>
+        
+      </header>
+      <section class="modal-card-body" formArrayName="logicRules">
+        <button class="button" (click)="addLogicGroup(amountOfRules)">Tilføj regel</button>
+        <hr>
+        <div *ngFor="let rule of getLogicRulesControls(); let i = index" class="is-flex is-align-items-center" [formGroup]="rule">
+          <div class="select">
+              <select formControlName="state">
+                  <option [value]="LogicState.Disabled">Disabled</option>
+                  <option [value]="LogicState.Hidden">Skjult</option>
+                </select>
+            </div>
+            <p class="ml-1">når værdien for felt</p>
+            <input type="text" class="input ml-2" formControlName="fieldId">
+            <div class="select">
+              <select formControlName="logicOperator">
+                  <option [value]="LogicOperator.Equals">Er</option>
+                  <option [value]="LogicOperator.NotEquals">Ikke er</option>
+                </select>
+            </div>
+            <input type="text" class="input ml-2" formControlName="value">
+          </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" (click)="saveLogicRules()">Gem</button>
+        <button class="button" (click)="ModalDataManager.LogicRulesModalIsOpen = false">Luk</button>
+      </footer>
+    </div>
+  </div>

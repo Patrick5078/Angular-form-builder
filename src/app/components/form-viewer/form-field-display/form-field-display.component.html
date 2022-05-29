@@ -1,4 +1,4 @@
-<div [ngSwitch]="formField.formFieldType">
+<div [ngSwitch]="formField.formFieldType" [formGroup]="formGroup">
     <h1 *ngSwitchCase="FormFieldType.Header1" class="is-size-2 mb-3">{{formField.config.text}}</h1>
     <h2 *ngSwitchCase="FormFieldType.Header2" class="is-size-3 mb-3">{{formField.config.text}}</h2>
     <h3 *ngSwitchCase="FormFieldType.Header3" class="is-size-4 mb-3">{{formField.config.text}}</h3>
@@ -8,17 +8,17 @@
     <div class="is-flex is-flex-direction-column mb-3" *ngSwitchCase="FormFieldType.TextInput">
       <label class="has-text-weight-semibold mb-1">{{formField.config.text}}<span class="ml-1" *ngIf="formField.config.required"
           style="color: red">*</span></label>
-      <input class="input display-input">
+      <input formControlName="valueOfFieldInFormViewer" class="input display-input">
     </div>
     <div class="is-flex is-flex-direction-column mb-3" *ngSwitchCase="FormFieldType.NumberInput">
       <label class="has-text-weight-semibold mb-1">{{formField.config.text}}<span class="ml-1" *ngIf="formField.config.required"
           style="color: red">*</span></label>
-      <input [mask]="'000000000000000000000000000000000000000000000'" class="input display-input">
+      <input formControlName="valueOfFieldInFormViewer" [mask]="'000000000000000000000000000000000000000000000'" class="input display-input">
     </div>
     <div class="is-flex is-flex-direction-column mb-3" *ngSwitchCase="FormFieldType.MoneyInput">
       <label class="has-text-weight-semibold mb-1">{{formField.config.text}}<span class="ml-1" *ngIf="formField.config.required"
           style="color: red">*</span></label>
-      <input mask="separator" thousandSeparator="." class="input display-input">
+      <input formControlName="valueOfFieldInFormViewer" mask="separator" thousandSeparator="." class="input display-input">
     </div>
 
     <div *ngSwitchCase="FormFieldType.OptionsInput" class="mb-3 is-flex is-flex-direction-column">
@@ -26,7 +26,7 @@
           style="color: red">*</span></label>
         <div>
             <div class="select">
-                <select>
+                <select formControlName="valueOfFieldInFormViewer">
                     <option *ngFor="let option of formField.config.options">{{option}}</option>
                   </select>
               </div>
@@ -35,10 +35,10 @@
     <div *ngSwitchCase="FormFieldType.Group">
       <div class="columns">
         <div class="column">
-          <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn1" [formField]="field"></app-form-field-display>
+          <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn1" [formField]="field" [formGroup]="formGroup"></app-form-field-display>
         </div>
         <div class="column">
-            <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn2" [formField]="field"></app-form-field-display>
+            <app-form-field-display *ngFor="let field of formField.config.formFieldsColumn2" [formField]="field" [formGroup]="formGroup"></app-form-field-display>
         </div>
       </div>
     </div>

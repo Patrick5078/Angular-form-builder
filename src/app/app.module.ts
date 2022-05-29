@@ -11,6 +11,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { EditInputGroupModalComponent } from './components/modal/edit-input-group-modal/edit-input-group-modal.component';
 import { FormFieldDropListComponent } from './components/form-field-drop-list/form-field-drop-list.component';
 import { FormFieldDisplayComponent } from './components/form-viewer/form-field-display/form-field-display.component';
+import { LogicRulesModalComponent } from './components/modal/logic-rules-modal/logic-rules-modal.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormFieldDisplayComponent } from './components/form-viewer/form-field-d
     FormFieldConfigurationComponent,
     EditInputGroupModalComponent,
     FormFieldDropListComponent,
-    FormFieldDisplayComponent
+    FormFieldDisplayComponent,
+    LogicRulesModalComponent
   ],
   imports: [
     BrowserModule,

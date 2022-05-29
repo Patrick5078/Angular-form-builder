@@ -4,8 +4,8 @@ import { FormField } from './../../app.component';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, copyArrayItem } from '@angular/cdk/drag-drop';
 import { formFieldOptions, formSpacingOptions, formTextOptions } from 'src/app/data/form-field-options';
-import { Utilities } from 'src/app/services/utility.service';
 import { ModalDataManager } from 'src/app/services/modal-manager';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-form-field-drop-list',
@@ -16,9 +16,10 @@ export class FormFieldDropListComponent implements OnInit {
 
   constructor(
     private formGroupCreator: FormGroupCreatorService,
+    public utilityService: UtilityService,
   ) { }
 
-  @Input() optionControls: any;
+  @Input() fieldControls: any;
   @Input() targetArray!: Array<any>;
   @Input() dropListId!: string;
 
@@ -46,15 +47,15 @@ export class FormFieldDropListComponent implements OnInit {
       case formTextOptions[0].name: sourceArray = formTextOptions; break;
     }
 
-    const item = Utilities.getDeepCopy(sourceArray[event.previousIndex]) as FormField;
+    const item = this.utilityService.getDeepCopy(sourceArray[event.previousIndex]) as FormField;
 
-    const id = Utilities.getGUI();
-    item.id = id;
+    const id = this.utilityService.getNextId();
+    item.id = id.toString();
     item.isExpanded = true;
 
     const formGroup = this.formGroupCreator.getFormGroup(item);
     if (formGroup !== null) {
-      this.optionControls[id] = formGroup;
+      this.fieldControls[id] = formGroup;
     }
     copyArrayItem([item], this.targetArray, 0, event.currentIndex);
   }

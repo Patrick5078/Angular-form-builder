@@ -1,7 +1,7 @@
 <div *ngFor="let section of sections; let i = index;">
   <ng-container *ngIf="activeSection === i">
     <div *ngFor="let item of section">
-      <app-form-field-display [formField]="item"></app-form-field-display>
+      <app-form-field-display [formField]="item" [formGroup]="fieldControls[item.id!]"></app-form-field-display>
     </div>
   </ng-container>
 <div>

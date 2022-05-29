@@ -14,6 +14,8 @@ export interface FormField {
   config: any;
   formFieldType: FormFieldType;
   isExpanded?: boolean;
+  valueOfFieldInFormViewer?: any;
+  hidden: boolean;
 }
 
 @Component({
@@ -29,7 +31,7 @@ export class AppComponent {
 
   exportedForm = "";
 
-  optionControls = {} as any;
+  fieldControls = {} as any;
   FormFieldType = FormFieldType;
   
   sections: FormField[][] = [[]];
@@ -44,7 +46,7 @@ export class AppComponent {
   ModalDataManager = ModalDataManager;
 
   ngOnInit() {
-    //this.importForm(exampleFormDefinition);
+    this.importForm(exampleFormDefinition);
   }
 
   removeItem(index: number) {
@@ -84,7 +86,7 @@ export class AppComponent {
       this.sectionNames.push(sectionName);
       this.sections.push(section as FormField[]);
       for (let field of section as FormField[]) {
-        this.optionControls[field.id!] = this.formGroupCreator.getFormGroup(field);
+        this.fieldControls[field.id!] = this.formGroupCreator.getFormGroup(field);
       }
     }
   }

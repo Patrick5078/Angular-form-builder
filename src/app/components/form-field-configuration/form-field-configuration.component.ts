@@ -1,3 +1,5 @@
+import { FormField } from './../../app.component';
+import { ModalDataManager } from 'src/app/services/modal-manager';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormFieldType } from 'src/app/data/enums';
@@ -13,10 +15,12 @@ export class FormFieldConfigurationComponent implements OnInit {
     public formBuilder: FormBuilder,
   ) { }
 
-  @Input() formFieldType!: FormFieldType;
+  @Input() formField!: FormField;
   @Input() formGroup!: FormGroup;
 
   public FormFieldType = FormFieldType;
+
+  ModalDataManager = ModalDataManager;
 
   ngOnInit(): void {
   }

@@ -14,6 +14,7 @@ export class FormViewerComponent implements OnInit {
   @Input() sections!: FormField[][];
   @Input() activeSection: number = 0;
 
+  @Input() fieldControls: any = {};
   
   FormFieldType = FormFieldType;
   ngOnInit(): void {

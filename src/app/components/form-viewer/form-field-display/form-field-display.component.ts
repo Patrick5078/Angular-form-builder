@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { FormField } from './../../../app.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormFieldType } from 'src/app/data/enums';
@@ -12,6 +13,7 @@ export class FormFieldDisplayComponent implements OnInit {
   constructor() { }
 
   @Input() formField!: FormField;
+  @Input() formGroup!: FormGroup;
 
   FormFieldType = FormFieldType;
 

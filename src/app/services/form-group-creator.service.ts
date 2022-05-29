@@ -33,12 +33,14 @@ export class FormGroupCreatorService {
       case FormFieldType.NumberInput:
         const group2 = this.formBuilder.group({
           text: [item.config.text],
-          required: [item.config.required]
+          required: [item.config.required],
+          valueOfFieldInFormViewer: [item.valueOfFieldInFormViewer]
         });
     
         group2.valueChanges.subscribe(val => {
           item.config.text = val.text;
           item.config.required = val.required;
+          item.valueOfFieldInFormViewer = val.valueOfFieldInFormViewer;
         });
     
         return group2;
@@ -48,6 +50,7 @@ export class FormGroupCreatorService {
           text: [item.config.text],
           required: [item.config.required],
           options: [item.config.options],
+          valueOfFieldInFormViewer: [item.valueOfFieldInFormViewer]
         });
 
         group3.valueChanges.subscribe(val => {
@@ -55,6 +58,7 @@ export class FormGroupCreatorService {
           item.config.options = options ? options : [];
           item.config.text = val.text;
           item.config.required = val.required;
+          item.valueOfFieldInFormViewer = val.valueOfFieldInFormViewer;
         });
 
         return group3;
@@ -62,7 +66,7 @@ export class FormGroupCreatorService {
       case FormFieldType.Group:
         return this.formBuilder.group({});
 
-      default: return null;
+      default: return this.formBuilder.group({});
     }
   }
 }

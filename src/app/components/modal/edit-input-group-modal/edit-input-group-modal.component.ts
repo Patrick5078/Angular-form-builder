@@ -1,3 +1,4 @@
+import { FormBuilder } from '@angular/forms';
 import { ModalDataManager } from './../../../services/modal-manager';
 import { FormField } from './../../../app.component';
 import { Component, Input, OnInit } from '@angular/core';
@@ -10,10 +11,11 @@ import { FormFieldType } from 'src/app/data/enums';
 })
 export class EditInputGroupModalComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+  ) { }
 
   @Input() formField?: FormField;
-  @Input() optionControls = {};
+  @Input() fieldControls = {};
 
   ModalDataManager = ModalDataManager;
 
