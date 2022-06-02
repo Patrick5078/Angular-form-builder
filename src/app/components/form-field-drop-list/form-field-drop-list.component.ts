@@ -54,7 +54,6 @@ export class FormFieldDropListComponent implements OnInit {
     item.isExpanded = true;
 
     const formGroup = this.formGroupCreator.getFormGroup(item);
-    console.log("🚀 ~ file: form-field-drop-list.component.ts ~ line 57 ~ FormFieldDropListComponent ~ onDrop ~ formGroup", formGroup)
     if (formGroup !== null) {
       this.fieldControls[id] = formGroup;
     }

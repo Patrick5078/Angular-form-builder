@@ -21,7 +21,7 @@ import { LogicRulesModalComponent } from './components/modal/logic-rules-modal/l
     EditInputGroupModalComponent,
     FormFieldDropListComponent,
     FormFieldDisplayComponent,
-    LogicRulesModalComponent
+    LogicRulesModalComponent,
   ],
   imports: [
     BrowserModule,

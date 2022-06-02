@@ -1,3 +1,4 @@
+import { ReactiveFormBuilderService } from './services/reactive-form-builder.service';
 import { FormGroupCreatorService } from './services/form-group-creator.service';
 import { Component } from '@angular/core';
 import { CdkDragDrop, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -9,8 +10,8 @@ import { dropListIds } from './data/drop-list-ids';
 import { ModalDataManager } from './services/modal-manager';
 
 export interface FormField {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
   config: any;
   formFieldType: FormFieldType;
   isExpanded?: boolean;
@@ -26,7 +27,8 @@ export interface FormField {
 export class AppComponent {
 
   constructor(
-    public formGroupCreator: FormGroupCreatorService
+    public formGroupCreator: FormGroupCreatorService,
+    public reactiveFormBuilder: ReactiveFormBuilderService,
   ) { }
 
   exportedForm = "";
@@ -46,7 +48,7 @@ export class AppComponent {
   ModalDataManager = ModalDataManager;
 
   ngOnInit() {
-    //this.importForm(exampleFormDefinition);
+    this.importForm(exampleFormDefinition);
   }
 
   removeItem(index: number) {
@@ -77,6 +79,8 @@ export class AppComponent {
     }
 
     this.exportedForm = JSON.stringify(exportData);
+    const form = this.reactiveFormBuilder.getReactiveFormFromFormObject(exportData);
+    console.log("🚀 ~ file: app.component.ts ~ line 83 ~ AppComponent ~ exportForm ~ form", form.getRawValue())
   }
 
   importForm(form: any) {
