@@ -6,13 +6,13 @@ import { FormFieldType } from '../data/enums';
 @Injectable({
   providedIn: 'root'
 })
-export class FormGroupCreatorService {
+export class FormConfigurationGroupCreatorService {
 
   constructor(
     public formBuilder: FormBuilder,
   ) { }
 
-  getFormGroup(item: FormField) {
+  getConfigurationFormGroup(item: FormField) {
     switch (item.formFieldType) {
       case FormFieldType.Header1:
       case FormFieldType.Header2:

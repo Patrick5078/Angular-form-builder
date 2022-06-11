@@ -15,7 +15,7 @@ export class LogicRulesModalComponent implements OnInit {
   ) { }
 
   ModalDataManager = ModalDataManager;
-  @Input() fieldControls!: any;
+  @Input() formConfigurationControlMap!: any;
 
   LogicState = LogicState;
   LogicOperator = LogicOperator;

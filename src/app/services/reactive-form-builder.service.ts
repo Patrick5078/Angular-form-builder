@@ -4,12 +4,9 @@ import { FormFieldType } from 'src/app/data/enums';
 import { FormField } from './../app.component';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import { ApplicationFormDefinition } from '../components/form-viewer/form-viewer.component';
 
-interface FormFieldObject {
-  [key: string]: FormField;
-}
-
-interface FormControlMap {
+export interface FormControlMap {
   [key: string]: {control: AbstractControl, formFieldInfo: FormField};
 }
 
@@ -24,7 +21,7 @@ export class ReactiveFormBuilderService {
 
   formControlMap: FormControlMap = {};
 
-  getReactiveFormFromFormObject(formObject: object) {
+  getReactiveFormFromFormObject(formObject: ApplicationFormDefinition): { form: FormGroup, formControlMap: FormControlMap } {
     this.formControlMap = {};
     const sections = Object.entries(formObject);
     const form = this.formBuilder.group({});
@@ -34,10 +31,11 @@ export class ReactiveFormBuilderService {
     }
 
     this.addValidatorsAndLogicRules();
-    return form;
+    const map = this.formControlMap;
+    return { form, formControlMap: map };
   }
 
-  private buildFormGroup(formFieldObject: FormFieldObject): FormGroup {
+  private buildFormGroup(formFieldObject: FormField[]): FormGroup {
     const formGroup = this.formBuilder.group({});
     const entries = Object.entries(formFieldObject);
 
@@ -52,7 +50,7 @@ export class ReactiveFormBuilderService {
     const control = this.buildControl(formField);
     if (control !== null) {
       this.formControlMap[formField.id] = {control, formFieldInfo: formField};
-      group.addControl(formField.config.text ? formField.config.text : "Placeholder", control);
+      group.addControl(formField.id, control);
     }
   }
 
@@ -86,9 +84,12 @@ export class ReactiveFormBuilderService {
     const formControls = Object.values(this.formControlMap);
 
     for (let formField of formControls) {
+      if (!formField.formFieldInfo.config) {
+        continue;
+      }
       const fieldInfo = formField.formFieldInfo;
       const control = formField.control;
-      const logicRules = formField.formFieldInfo.config.logicRules as LogicRule[];
+      const logicRules = formField.formFieldInfo?.config?.logicRules as LogicRule[] || [];
 
       const validators: Array<(control: AbstractControl) => ValidationErrors | null> = [];
 
@@ -100,8 +101,11 @@ export class ReactiveFormBuilderService {
 
       /// Applying logic rules
       for (let rule of logicRules) {
-        control.valueChanges.subscribe(formFieldValue => {
-          const valueOfRelatedField = this.formControlMap[rule.fieldId].control.value;
+        console.log("🚀 ~ file: reactive-form-builder.service.ts ~ line 104 ~ ReactiveFormBuilderService ~ addValidatorsAndLogicRules ~ rule", rule)
+        const relatedField = this.formControlMap[rule.fieldId].control;
+        relatedField.valueChanges.subscribe(formFieldValue => {
+        console.log("🚀 ~ file: reactive-form-builder.service.ts ~ line 106 ~ ReactiveFormBuilderService ~ addValidatorsAndLogicRules ~ formFieldValue", formFieldValue)
+          const valueOfRelatedField = relatedField.value;
           if ((rule.logicOperator == LogicOperator.Equals && rule.value?.toString() === valueOfRelatedField?.toString()) ||
           (rule.logicOperator == LogicOperator.NotEquals && rule.value?.toString() !== valueOfRelatedField?.toString())) {
             if (rule.state == LogicState.Hidden) {

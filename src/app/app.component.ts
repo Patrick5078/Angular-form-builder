@@ -1,7 +1,7 @@
+import { Utilities } from 'src/app/services/utility.service';
 import { ReactiveFormBuilderService } from './services/reactive-form-builder.service';
-import { FormGroupCreatorService } from './services/form-group-creator.service';
+import { FormConfigurationGroupCreatorService } from './services/form-configuration-group-creator.service';
 import { Component } from '@angular/core';
-import { CdkDragDrop, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormBuilder } from '@angular/forms';
 import { exampleFormDefinition } from './test.data';
 import { FormFieldType } from './data/enums';
@@ -16,7 +16,6 @@ export interface FormField {
   formFieldType: FormFieldType;
   isExpanded?: boolean;
   valueOfFieldInFormViewer?: any;
-  hidden: boolean;
 }
 
 @Component({
@@ -27,13 +26,13 @@ export interface FormField {
 export class AppComponent {
 
   constructor(
-    public formGroupCreator: FormGroupCreatorService,
+    public formConfigurationCreator: FormConfigurationGroupCreatorService,
     public reactiveFormBuilder: ReactiveFormBuilderService,
   ) { }
 
   exportedForm = "";
 
-  fieldControls = {} as any;
+  formConfigurationControlMap = {} as any;
   FormFieldType = FormFieldType;
   
   sections: FormField[][] = [[]];
@@ -47,8 +46,14 @@ export class AppComponent {
 
   ModalDataManager = ModalDataManager;
 
+  formDefinition = exampleFormDefinition as any;
+
   ngOnInit() {
     this.importForm(exampleFormDefinition);
+    setInterval(() => {
+      this.exportForm();
+      this.formDefinition = this.exportedForm;
+    }, 2000)
   }
 
   removeItem(index: number) {
@@ -78,19 +83,21 @@ export class AppComponent {
       exportData[name] = this.sections[index];
     }
 
-    this.exportedForm = JSON.stringify(exportData);
-    // const form = this.reactiveFormBuilder.getReactiveFormFromFormObject(exportData);
-    // console.log("🚀 ~ file: app.component.ts ~ line 83 ~ AppComponent ~ exportForm ~ form", form.getRawValue())
+    this.exportedForm = exportData;
   }
 
   importForm(form: any) {
     this.sectionNames = [];
     this.sections = [];
+    const highestId = 0;
     for (let [sectionName, section] of Object.entries(form)) {
       this.sectionNames.push(sectionName);
       this.sections.push(section as FormField[]);
       for (let field of section as FormField[]) {
-        this.fieldControls[field.id!] = this.formGroupCreator.getFormGroup(field);
+        this.formConfigurationControlMap[field.id!] = this.formConfigurationCreator.getConfigurationFormGroup(field);
+        if (Number(field.id) > highestId) {
+          Utilities.currentId = Number(field.id);
+        }
       }
     }
   }

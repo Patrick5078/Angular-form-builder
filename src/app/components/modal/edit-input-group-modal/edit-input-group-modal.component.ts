@@ -15,7 +15,7 @@ export class EditInputGroupModalComponent implements OnInit {
   ) { }
 
   @Input() formField?: FormField;
-  @Input() fieldControls = {};
+  @Input() formConfigurationControlMap = {};
 
   ModalDataManager = ModalDataManager;
 

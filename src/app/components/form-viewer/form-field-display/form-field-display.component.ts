@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { FormField } from './../../../app.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormFieldType } from 'src/app/data/enums';
@@ -13,12 +13,21 @@ export class FormFieldDisplayComponent implements OnInit {
   constructor() { }
 
   @Input() formField!: FormField;
-  @Input() formGroup!: FormGroup;
-  @Input() fieldControls: any = {};
+  @Input() control?: AbstractControl;
 
   FormFieldType = FormFieldType;
 
   ngOnInit(): void {
   }
 
+  castToFormControl() {
+  }
+  
+  get controlAsFormControl() {
+    return this.control as FormControl;
+  }
+
+  get controlAsFormGroup() {
+    return this.control as FormGroup;
+  }
 }

@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UtilityService {
+export class Utilities {
 
   constructor() { }
 
-  currentId = 0;
+  static currentId = 0;
 
-  public getDeepCopy(item: Object) {
+  static getDeepCopy(item: Object) {
     return JSON.parse(JSON.stringify(item));
   }
 
-  public getNextId() {
+  static getNextId() {
     this.currentId++;
     return this.currentId;
   }

@@ -48,12 +48,12 @@
         <button class="button ml-3" (click)="closeAll()">Luk alle</button>
       </div>
         <app-form-field-drop-list [dropListId]="'sectionList'" [targetArray]="sections[activeSection]"
-         [fieldControls]="fieldControls"></app-form-field-drop-list>
+         [formConfigurationControlMap]="formConfigurationControlMap"></app-form-field-drop-list>
     </div>
     <div class="column">
       <h2>Preview</h2>
       <hr>
-      <app-form-viewer [sections]="sections" [activeSection]="activeSection" [fieldControls]="fieldControls"></app-form-viewer>
+      <app-form-viewer [applicationFormDefinition]="formDefinition"></app-form-viewer>
     </div>
   </div>
 
@@ -61,6 +61,6 @@
     <div></div>
   </ng-template>
 
-  <app-edit-input-group-modal [fieldControls]="fieldControls" [formField]="ModalDataManager.FormGroupModalItemBeingEdited"></app-edit-input-group-modal>
-  <app-logic-rules-modal [fieldControls]="fieldControls"></app-logic-rules-modal>
+  <app-edit-input-group-modal [formConfigurationControlMap]="formConfigurationControlMap" [formField]="ModalDataManager.FormGroupModalItemBeingEdited"></app-edit-input-group-modal>
+  <app-logic-rules-modal [formConfigurationControlMap]="formConfigurationControlMap"></app-logic-rules-modal>
 </div>

@@ -1,2 +1,30 @@
-export const exampleFormDefinition =   {"Start":[{"id":"1","formFieldType":4,"name":"Overskrift | Stor","hidden":false,"config":{"text":"Hej"},"isExpanded":true},{"id":"2","formFieldType":5,"name":"Overskrift | Medium","hidden":false,"config":{"text":"Hej2"},"isExpanded":true},{"id":"3","formFieldType":7,"name":"Paragraf","hidden":false,"config":{"text":"Hej3"},"isExpanded":true},{"id":"4","formFieldType":9,"name":"Gruppe","hidden":false,"config":{"text":"","formFieldsColumn1":[{"id":"5","formFieldType":0,"name":"Input | Tekst","hidden":false,"valueOfFieldInFormViewer":null,"config":{"text":"Test","required":false,"logicRules":[]},"isExpanded":true}],"formFieldsColumn2":[{"id":"6","formFieldType":1,"name":"Input | Tal","hidden":false,"valueOfFieldInFormViewer":null,"config":{"text":"Test2","required":false,"logicRules":[]},"isExpanded":true}],"logicRules":[],"hasBorder":true},"isExpanded":false}]}
-
+export const exampleFormDefinition = {
+  "Start": [{
+    "id": "1",
+    "formFieldType": 4,
+    "name": "Overskrift | Stor",
+    "hidden": false,
+    "config": {
+      "text": "Hej"
+    },
+    "isExpanded": true
+  }, {
+    "id": "2",
+    "formFieldType": 5,
+    "name": "Overskrift | Medium",
+    "hidden": false,
+    "config": {
+      "text": "Hej2"
+    },
+    "isExpanded": true
+  }, {
+    "id": "3",
+    "formFieldType": 7,
+    "name": "Paragraf",
+    "hidden": false,
+    "config": {
+      "text": "Hej3"
+    },
+    "isExpanded": true
+  }]
+}

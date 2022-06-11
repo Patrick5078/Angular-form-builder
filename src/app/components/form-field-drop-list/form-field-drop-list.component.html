@@ -26,8 +26,8 @@
           class="ms-Icon ms-font-xl ms-Icon--ChevronDown ms-fontColor-themePrimary"></i>
       </ng-container>
     </div>
-    <div *ngIf="formItem.isExpanded && fieldControls[formItem.id!] && formItem.formFieldType !== FormFieldType.Group && formItem.formFieldType !== FormFieldType.Divider">
-      <app-form-field-configuration [formField]="formItem" [formGroup]="fieldControls[formItem.id!]">
+    <div *ngIf="formItem.isExpanded && formConfigurationControlMap[formItem.id!] && formItem.formFieldType !== FormFieldType.Group && formItem.formFieldType !== FormFieldType.Divider">
+      <app-form-field-configuration [formField]="formItem" [formGroup]="formConfigurationControlMap[formItem.id!]">
       </app-form-field-configuration>
     </div>
   </div>
