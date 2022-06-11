@@ -1,3 +1,4 @@
+import { ViewDynamicFormComponent } from './components/view-dynamic-form/view-dynamic-form.component';
 import { FormFieldConfigurationComponent } from './components/form-field-configuration/form-field-configuration.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,6 +13,7 @@ import { EditInputGroupModalComponent } from './components/modal/edit-input-grou
 import { FormFieldDropListComponent } from './components/form-field-drop-list/form-field-drop-list.component';
 import { FormFieldDisplayComponent } from './components/form-viewer/form-field-display/form-field-display.component';
 import { LogicRulesModalComponent } from './components/modal/logic-rules-modal/logic-rules-modal.component';
+import { DynamicFormsBasicUIModule } from '@ng-dynamic-forms/ui-basic';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { LogicRulesModalComponent } from './components/modal/logic-rules-modal/l
     FormFieldDropListComponent,
     FormFieldDisplayComponent,
     LogicRulesModalComponent,
+    ViewDynamicFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +33,7 @@ import { LogicRulesModalComponent } from './components/modal/logic-rules-modal/l
     DragDropModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
+    DynamicFormsBasicUIModule
   ],
   providers: [],
   bootstrap: [AppComponent]

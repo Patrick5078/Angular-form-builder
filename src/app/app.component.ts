@@ -79,8 +79,8 @@ export class AppComponent {
     }
 
     this.exportedForm = JSON.stringify(exportData);
-    const form = this.reactiveFormBuilder.getReactiveFormFromFormObject(exportData);
-    console.log("🚀 ~ file: app.component.ts ~ line 83 ~ AppComponent ~ exportForm ~ form", form.getRawValue())
+    // const form = this.reactiveFormBuilder.getReactiveFormFromFormObject(exportData);
+    // console.log("🚀 ~ file: app.component.ts ~ line 83 ~ AppComponent ~ exportForm ~ form", form.getRawValue())
   }
 
   importForm(form: any) {

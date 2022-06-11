@@ -61,23 +61,6 @@ export class LogicRulesModalComponent implements OnInit {
       const group = groups[index];
       const logicRuleFormValue = group.getRawValue();
       ModalDataManager.LogicRulesModalItemBeingEdited!.config.logicRules[index] = logicRuleFormValue;
-      if (logicRuleFormValue?.fieldId) {
-        (this.fieldControls[logicRuleFormValue.fieldId] as FormGroup).valueChanges.subscribe(formGroupValue => {
-          const valueOfTargetedFieldInForm = formGroupValue.valueOfFieldInFormViewer;
-          const groupOfItemBeingEdited = this.fieldControls[ModalDataManager.LogicRulesModalItemBeingEdited.id!] as FormGroup;
-          if ((logicRuleFormValue.logicOperator == LogicOperator.Equals && logicRuleFormValue.value?.toString() === valueOfTargetedFieldInForm?.toString()) ||
-          (logicRuleFormValue.logicOperator == LogicOperator.NotEquals && logicRuleFormValue.value?.toString() !== valueOfTargetedFieldInForm?.toString())) {
-            if (logicRuleFormValue.state == LogicState.Hidden) {
-                ModalDataManager.LogicRulesModalItemBeingEdited.hidden = true;
-              } else if (logicRuleFormValue.state == LogicState.Disabled) {
-                groupOfItemBeingEdited.get('valueOfFieldInFormViewer')!.disable({emitEvent: false});
-              }
-            } else {
-              groupOfItemBeingEdited.get('valueOfFieldInFormViewer')!.enable({emitEvent: false});
-              ModalDataManager.LogicRulesModalItemBeingEdited.hidden = false;
-            }
-          });
-        }
       }; 
     }
   }

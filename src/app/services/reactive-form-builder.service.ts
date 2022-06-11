@@ -1,11 +1,16 @@
+import { LogicOperator, LogicRule, LogicState } from './../data/models';
 import { formTextOptions } from 'src/app/data/form-field-options';
 import { FormFieldType } from 'src/app/data/enums';
 import { FormField } from './../app.component';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
 interface FormFieldObject {
   [key: string]: FormField;
+}
+
+interface FormControlMap {
+  [key: string]: {control: AbstractControl, formFieldInfo: FormField};
 }
 
 @Injectable({
@@ -17,7 +22,10 @@ export class ReactiveFormBuilderService {
     private formBuilder: FormBuilder
   ) { }
 
+  formControlMap: FormControlMap = {};
+
   getReactiveFormFromFormObject(formObject: object) {
+    this.formControlMap = {};
     const sections = Object.entries(formObject);
     const form = this.formBuilder.group({});
     for (let [key, value] of sections) {
@@ -25,14 +33,12 @@ export class ReactiveFormBuilderService {
       form.addControl(key, group);
     }
 
+    this.addValidatorsAndLogicRules();
     return form;
   }
 
-  private buildFormGroup(formFieldObject: FormFieldObject, formGroup?: FormGroup): FormGroup {
-    if (!formGroup) {
-      formGroup = this.formBuilder.group({});
-    }
-
+  private buildFormGroup(formFieldObject: FormFieldObject): FormGroup {
+    const formGroup = this.formBuilder.group({});
     const entries = Object.entries(formFieldObject);
 
     for (let [key, value] of entries) {
@@ -40,6 +46,14 @@ export class ReactiveFormBuilderService {
     }
 
     return formGroup;
+  }
+
+  private tryAddControlToInputGroup(group: FormGroup, formField: FormField) {
+    const control = this.buildControl(formField);
+    if (control !== null) {
+      this.formControlMap[formField.id] = {control, formFieldInfo: formField};
+      group.addControl(formField.config.text ? formField.config.text : "Placeholder", control);
+    }
   }
 
   private buildControl(value: FormField): AbstractControl | null {
@@ -67,16 +81,39 @@ export class ReactiveFormBuilderService {
     return this.formBuilder.control(null);
   }
 
-  private tryAddControlToInputGroup(group: FormGroup, value: FormField) {
-    const control = this.buildControl(value);
-    if (control !== null) {
-      this.addValidators(control);
-      group.addControl(value.config.text ? value.config.text : "Placeholder", control);
-    }
-  }
 
-  private addValidators(control: AbstractControl) {
-    
+  private addValidatorsAndLogicRules() {
+    const formControls = Object.values(this.formControlMap);
+
+    for (let formField of formControls) {
+      const fieldInfo = formField.formFieldInfo;
+      const control = formField.control;
+      const logicRules = formField.formFieldInfo.config.logicRules as LogicRule[];
+
+      const validators: Array<(control: AbstractControl) => ValidationErrors | null> = [];
+
+      if (fieldInfo.config.required) {
+        validators.push(Validators.required);
+      }
+
+      control.setValidators(validators);
+
+      /// Applying logic rules
+      for (let rule of logicRules) {
+        control.valueChanges.subscribe(formFieldValue => {
+          const valueOfRelatedField = this.formControlMap[rule.fieldId].control.value;
+          if ((rule.logicOperator == LogicOperator.Equals && rule.value?.toString() === valueOfRelatedField?.toString()) ||
+          (rule.logicOperator == LogicOperator.NotEquals && rule.value?.toString() !== valueOfRelatedField?.toString())) {
+            if (rule.state == LogicState.Hidden) {
+              } else if (rule.state == LogicState.Disabled) {
+                control.disable({emitEvent: false});
+              }
+            } else {
+              control.enable({emitEvent: false});
+            }
+          });
+        }
+    }
   }
 
   private isArrayType(type: FormFieldType) {
@@ -94,7 +131,7 @@ export class ReactiveFormBuilderService {
     return nonInputTypes.includes(type);
   }
 
-  // private isControlType(type: FormFieldType) {
+  private isControlType(type: FormFieldType) {
 
-  // }
+  }
 }
