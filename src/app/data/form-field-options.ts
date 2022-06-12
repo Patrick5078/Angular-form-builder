@@ -120,4 +120,17 @@ export const formFieldOptions: FormField[] = [
         hasBorder: true,
       }
     },
+    {
+      id: "0",
+      hidden: false,
+      formFieldType: FormFieldType.List,
+      name: 'Liste',
+      config: {
+        text: "",
+        formFieldsColumn1: [],
+        formFieldsColumn2: [],
+        logicRules: [],
+        hasBorder: true,
+      }
+    },
   ];

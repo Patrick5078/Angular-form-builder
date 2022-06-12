@@ -2,6 +2,7 @@ import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { FormField } from './../../../app.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormFieldType } from 'src/app/data/enums';
+import { FormControlMap } from 'src/app/services/reactive-form-builder.service';
 
 @Component({
   selector: 'app-form-field-display',
@@ -13,7 +14,7 @@ export class FormFieldDisplayComponent implements OnInit {
   constructor() { }
 
   @Input() formField!: FormField;
-  @Input() control?: AbstractControl;
+  @Input() controlMap!: FormControlMap;
 
   FormFieldType = FormFieldType;
 
@@ -23,11 +24,7 @@ export class FormFieldDisplayComponent implements OnInit {
   castToFormControl() {
   }
   
-  get controlAsFormControl() {
-    return this.control as FormControl;
-  }
-
-  get controlAsFormGroup() {
-    return this.control as FormGroup;
+  getControl(fieldId: string) {
+    return this.controlMap[fieldId].control as FormControl;
   }
 }

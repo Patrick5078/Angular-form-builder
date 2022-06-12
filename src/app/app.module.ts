@@ -14,6 +14,7 @@ import { FormFieldDropListComponent } from './components/form-field-drop-list/fo
 import { FormFieldDisplayComponent } from './components/form-viewer/form-field-display/form-field-display.component';
 import { LogicRulesModalComponent } from './components/modal/logic-rules-modal/logic-rules-modal.component';
 import { DynamicFormsBasicUIModule } from '@ng-dynamic-forms/ui-basic';
+import { FormArrayComponent } from './components/form-viewer/form-field-display/form-array/form-array.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DynamicFormsBasicUIModule } from '@ng-dynamic-forms/ui-basic';
     FormFieldDisplayComponent,
     LogicRulesModalComponent,
     ViewDynamicFormComponent,
+    FormArrayComponent,
   ],
   imports: [
     BrowserModule,
