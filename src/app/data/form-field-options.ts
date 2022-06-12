@@ -4,20 +4,20 @@ import { FormFieldType } from "./enums";
 export const formFieldOptions: FormField[] = [
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.TextInput,
       name: 'Input | Tekst',
-      valueOfFieldInFormViewer: null,
       config: {
         text: "",
         required: false,
         logicRules: [],
-      }
+      },
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.NumberInput,
       name: 'Input | Tal',
-      valueOfFieldInFormViewer: null,
       config: {
         text: "",
         required: false,
@@ -26,9 +26,9 @@ export const formFieldOptions: FormField[] = [
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.MoneyInput,
       name: 'Input | Beløb',
-      valueOfFieldInFormViewer: null,
       config: {
         text: "",
         required: false,
@@ -37,9 +37,9 @@ export const formFieldOptions: FormField[] = [
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.TextInput,
       name: 'Input | Filer',
-      valueOfFieldInFormViewer: null,
       config: {
         text: "",
         required: false,
@@ -48,9 +48,9 @@ export const formFieldOptions: FormField[] = [
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.OptionsInput,
       name: 'Input | Dropdown',
-      valueOfFieldInFormViewer: null,
       config: {
         text: "",
         required: false,
@@ -63,6 +63,7 @@ export const formFieldOptions: FormField[] = [
   export const formTextOptions: FormField[] = [
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.Header1,
       name: 'Overskrift | Stor',
       config: {
@@ -71,6 +72,7 @@ export const formFieldOptions: FormField[] = [
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.Header2,
       name: 'Overskrift | Medium',
       config: {
@@ -79,6 +81,7 @@ export const formFieldOptions: FormField[] = [
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.Header3,
       name: 'Overskrift | Lille',
       config: {
@@ -87,6 +90,7 @@ export const formFieldOptions: FormField[] = [
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.Paragraf,
       name: 'Paragraf',
       config: {
@@ -98,12 +102,14 @@ export const formFieldOptions: FormField[] = [
   export const formSpacingOptions: FormField[] = [
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.Divider,
       name: 'Divider',
       config: {}
     },
     {
       id: "0",
+      hidden: false,
       formFieldType: FormFieldType.Group,
       name: 'Gruppe',
       config: {

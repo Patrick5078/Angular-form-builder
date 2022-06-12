@@ -101,19 +101,22 @@ export class ReactiveFormBuilderService {
 
       /// Applying logic rules
       for (let rule of logicRules) {
-        console.log("🚀 ~ file: reactive-form-builder.service.ts ~ line 104 ~ ReactiveFormBuilderService ~ addValidatorsAndLogicRules ~ rule", rule)
         const relatedField = this.formControlMap[rule.fieldId].control;
         relatedField.valueChanges.subscribe(formFieldValue => {
-        console.log("🚀 ~ file: reactive-form-builder.service.ts ~ line 106 ~ ReactiveFormBuilderService ~ addValidatorsAndLogicRules ~ formFieldValue", formFieldValue)
           const valueOfRelatedField = relatedField.value;
           if ((rule.logicOperator == LogicOperator.Equals && rule.value?.toString() === valueOfRelatedField?.toString()) ||
           (rule.logicOperator == LogicOperator.NotEquals && rule.value?.toString() !== valueOfRelatedField?.toString())) {
             if (rule.state == LogicState.Hidden) {
-              } else if (rule.state == LogicState.Disabled) {
-                control.disable({emitEvent: false});
-              }
+              control.setValue(null);
+              control.disable({emitEvent: false});
+              fieldInfo.hidden = true;
+            } 
+            else if (rule.state == LogicState.Disabled) {
+              control.disable({emitEvent: false});
+            }
             } else {
               control.enable({emitEvent: false});
+              fieldInfo.hidden = false;
             }
           });
         }

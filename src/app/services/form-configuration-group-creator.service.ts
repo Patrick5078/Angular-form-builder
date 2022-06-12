@@ -34,13 +34,11 @@ export class FormConfigurationGroupCreatorService {
         const group2 = this.formBuilder.group({
           text: [item.config.text],
           required: [item.config.required],
-          valueOfFieldInFormViewer: [item.valueOfFieldInFormViewer]
         });
     
         group2.valueChanges.subscribe(val => {
           item.config.text = val.text;
           item.config.required = val.required;
-          item.valueOfFieldInFormViewer = val.valueOfFieldInFormViewer;
         });
     
         return group2;
@@ -50,7 +48,6 @@ export class FormConfigurationGroupCreatorService {
           text: [item.config.text],
           required: [item.config.required],
           options: [item.config.options],
-          valueOfFieldInFormViewer: [item.valueOfFieldInFormViewer]
         });
 
         group3.valueChanges.subscribe(val => {
@@ -58,7 +55,6 @@ export class FormConfigurationGroupCreatorService {
           item.config.options = options ? options : [];
           item.config.text = val.text;
           item.config.required = val.required;
-          item.valueOfFieldInFormViewer = val.valueOfFieldInFormViewer;
         });
 
         return group3;

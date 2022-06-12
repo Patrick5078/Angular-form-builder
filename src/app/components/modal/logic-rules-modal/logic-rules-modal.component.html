@@ -24,11 +24,12 @@
                   <option [value]="LogicOperator.NotEquals">Ikke er</option>
                 </select>
             </div>
-            <input type="text" class="input ml-2" formControlName="value">
+            <input type="text" class="input" formControlName="value">
+            <button class="button ml-2" (click)="removeRule(i)">Slet</button>
           </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" (click)="saveLogicRules()">Gem</button>
+        <button class="button is-success" (click)="saveLogicRules()">Gem og luk</button>
         <button class="button" (click)="ModalDataManager.LogicRulesModalIsOpen = false">Luk</button>
       </footer>
     </div>

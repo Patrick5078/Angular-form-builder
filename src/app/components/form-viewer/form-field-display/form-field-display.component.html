@@ -1,4 +1,4 @@
-<div [ngSwitch]="formField.formFieldType">
+<div [ngSwitch]="formField.formFieldType" *ngIf="!formField.hidden">
     <h1 *ngSwitchCase="FormFieldType.Header1" class="is-size-2 mb-3">{{formField.config.text}}</h1>
     <h2 *ngSwitchCase="FormFieldType.Header2" class="is-size-3 mb-3">{{formField.config.text}}</h2>
     <h3 *ngSwitchCase="FormFieldType.Header3" class="is-size-4 mb-3">{{formField.config.text}}</h3>

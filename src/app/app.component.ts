@@ -15,7 +15,7 @@ export interface FormField {
   config: any;
   formFieldType: FormFieldType;
   isExpanded?: boolean;
-  valueOfFieldInFormViewer?: any;
+  hidden: boolean;
 }
 
 @Component({

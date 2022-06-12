@@ -44,9 +44,6 @@ export class FormViewerComponent implements OnInit {
   sections: FormField[][] = [];
 
   ngOnInit(): void {
-    setInterval(() => {
-      console.log(this.applicationForm?.getRawValue());
-    }, 5000);
     this.invalidateForm();
   }
 

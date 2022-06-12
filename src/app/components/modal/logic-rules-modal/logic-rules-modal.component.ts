@@ -55,12 +55,17 @@ export class LogicRulesModalComponent implements OnInit {
     return this.logicRulesArray.controls as FormGroup[];
   }
 
+  removeRule(index: number) {
+    this.logicRulesArray.removeAt(index);
+  }
+
   saveLogicRules() {
     const groups = this.getLogicRulesControls();
     for (let index = 0; index < groups.length; index++) {
       const group = groups[index];
       const logicRuleFormValue = group.getRawValue();
       ModalDataManager.LogicRulesModalItemBeingEdited!.config.logicRules[index] = logicRuleFormValue;
+      ModalDataManager.LogicRulesModalIsOpen = false;
       }; 
     }
   }
